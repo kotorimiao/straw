@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax文件上载</title>
+    <script src="browser_components/jquery/dist/jquery.min.js"></script>
+</head>
+<body>                   <!--分块上传-->
+    <form id="uploadForm">
+        <div>
+            <label>
+                选择上载文件：
+                <input type="file"  id="imageFile">
+            </label>
+        </div>
+        <button  type="submit">提交文件</button>
+    </form>
+
+</body>
+<script src="js/utils.js"></script>
+<script>
+    $(function () {
+        $('#uploadForm').submit(function () {
+            //执行ajax代码，取消原有的表单请求
+            //找到选择的文件
+            let  files=document.getElementById("imageFile").files;
+            if (files.length>0){
+                //选择了文件
+                let  file=files[0];
+                uploadImage(file);//负责向服务器发送文件
+            }else{
+                //没有选择文件
+                alert("请选择文件！");
+            }
+            return  false;//取消原有提交请求
+        });
+        function uploadImage(file) {
+            //在内存中创建表单对象
+            let form=new  FormData();
+            //该imageFile必须和控制器参数的变量名一致
+            form.append("imageFile",file);
+            $.ajax({
+                url:'/upload/file',
+                method:'POST',
+                data:form,
+                contentType:false,
+                processData:false,
+                success:function (r) {
+                    console.log(r);
+                    if(r.code===OK){
+                        alert(r.message);
+                    }else{
+                        alert(r.message);
+                    }
+                }
+            });
+        };
+    });
+</script>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VUE DEMO</title>
+    <script src="browser_components/vue/dist/vue.js"></script>
+</head>
+<body>
+<!--声明vue的视图-->
+<div id="app">
+    <p v-text="message">这是一个演示</p>
+    <input type="text" v-model="desc">
+    <button  v-on:click="hello">测试</button>
+</div>
+<script>
+        //声明视图模型
+    let app=new  Vue({
+        el:"#app",//表示当前Vue对象与div视图进行关联  通过id进行关联
+        //定义数据
+        data:{
+          //与p标签通过message进行数据双向互换
+          message:'HelloWorld!',
+          desc:'Hello Vue.js'
+        },
+        methods:{
+            hello:function(){
+                console.log("点击了测试按钮！");
+                this.message=this.desc;
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

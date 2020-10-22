@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>资源服务器文件上载</title>
+    <script src="js/utils.js"></script>
+    <script src="browser_components/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+<h1>上载图片到资源文件夹</h1>
+    <form id="demoForm">
+        <div>
+            <label>
+                选择上载文件：
+                <input type="file"  id="imageFile">
+            </label>
+        </div>
+        <button  type="submit">提交文件</button>
+    </form>
+<img src="" alt="" id="image">
+</body>
+
+<script>
+    $(function () {
+        $('#demoForm').submit(function () {
+            //执行ajax代码，取消原有的表单请求
+            //找到选择的文件
+            let  files=document.getElementById("imageFile").files;
+            if (files.length>0){
+                //选择了文件
+                let  file=files[0];
+                uploadImage(file);//负责向服务器发送文件
+            }else{
+                //没有选择文件
+                alert("请选择文件！");
+            }
+            return  false;//取消原有提交请求
+        });
+        function uploadImage(file) {
+            //在内存中创建表单对象
+            let form=new  FormData();
+            //该imageFile必须和控制器参数的变量名一致
+            form.append("imageFile",file);
+            $.ajax({
+                url:'/upload/image',
+                method:'POST',
+                data:form,
+                contentType:false,//设置此两项的目的是进行muiltiFile提交
+                processData:false,
+                success:function (r) {
+                    console.log(r);
+                    if(r.code===OK){
+                        console.log(r.message);
+                        let url=r.message;
+                        //显示上传的照片
+                        $('#image').attr('src',url);
+                    }else{
+                        alert(r.message);
+                    }
+                }
+            });
+        };
+    });
+</script>
+</html>

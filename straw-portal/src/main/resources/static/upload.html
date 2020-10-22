@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件上载</title>
+</head>
+<body>                   <!--分块上传-->
+    <form method="post"  enctype="multipart/form-data"
+    action="/upload/file"
+    >
+        <div>
+            <label>
+                选择上载文件：
+                <input type="file"  name="imageFile">
+            </label>
+        </div>
+        <button  type="submit">提交文件</button>
+    </form>
+
+</body>
+</html>
